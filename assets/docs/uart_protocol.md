@@ -17,7 +17,7 @@ One UART "frame" is composed of the following structure:
 
 | SoF | Message ID | Payload Length | Payload | Checksum |
 | --- | --- | --- | --- | --- |
-| 2 Bytes | 2 Bytes | 2 Bytes | 1 - 1024 Bytes | 2 Bytes |
+| 2 Bytes | 2 Bytes | 2 Bytes | 0 - 1024 Bytes | 2 Bytes |
 
 ## Start of Frame Indicator (SoF)
 
@@ -41,7 +41,7 @@ This field identifies the type of message the frame is, and thus how the payload
 | File Block | 0x12 | Yes | Any block of file | READ/WRITE | Both |
 | File End | 0x13 | Yes | Final block of file | READ/WRITE | Both |
 | File Transfer Complete | 0x14 | No | Checksum for whole file verification | READ/WRITE | Both |
-| File Request ACK | 0xF0 | No | None | READ/WRITE | Both |
+| File Request ACK | 0xF0 | No | Whether file transfer can be performed or not (ie fail if requested file does not exist) | READ/WRITE | Both |
 | File Block ACK | 0xF1 | No | None | READ/WRITE | Both |
 | File Transfer Complete ACK | 0xF2 | No | Whether checksum verification succeeded or not | READ/WRITE | Both |
 
