@@ -105,6 +105,7 @@ void SYS_initPower(void)
     DL_GPIO_enablePower(GPIOB);
     DL_GPIO_enablePower(GPIOC);
     DL_TimerG_enablePower(TIMER_0_INST);
+    
     delay_cycles(POWER_STARTUP_DELAY);
 }
 

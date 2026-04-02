@@ -32,11 +32,11 @@
 
 #include "ti_drivers_config.h"
 #define DELAY (8000000)
-//#include "flash.h"
-
-//#include <string.h>     // For strlen
-
-//#define TEST_FLASH_ADDR 0x0003F000 //Page 252
+// #include "flash.h"
+// #include <string.h>     // For strlen
+// #define TEST_FLASH_ADDR 0x0003F000 //Page 252
+// #include <stdint.h>
+// #include "trng.h"
 
 uint8_t gBuffer[CONFIG_UART_BUFFER_LENGTH] = {0};
 
@@ -85,6 +85,15 @@ int main(void)
         }
     }
 */
+
+    // // TRNG test
+    // uint32_t buf[TRNG_256_BIT_BUF_SIZE] = {0};
+
+    // // Write 256-bit "number" to buf
+    // trngGenerate256BitNumber(buf);
+
+    // // PUT A BREAKPOINT AND VIEW IN DEBUG VARIABLES
+
     DL_GPIO_setPins(GPIO_RED_LED_PORT, GPIO_RED_LED_PIN);
     DL_TimerG_startCounter(TIMER_0_INST);
     
