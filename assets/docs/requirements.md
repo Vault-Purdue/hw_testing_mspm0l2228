@@ -25,33 +25,36 @@ Update headings per module structure
 
 ## Drivers
 ### UART Driver
-PA10, PA11 pins, UART0 for back channel UART over XDS110.
+- PA10, PA11 pins, UART0 for back channel UART over XDS110.
 ### Timer Driver
 ### TRNG Driver
 ### Key Storage Driver
+### CSC (Customer Secure Code)
 ### AESADV Driver
-Execute encryption and decryption using <> algorithm on command.
+- Execute encryption and decryption using <> algorithm on command.
 ### Internal Flash Driver
 
 ## Modules
 ### UART CMD Router
-Process UART message (CT CMD).
-
-Provide PIN to auth engine.
-
-Initiate PT/CT commands to Crypto Module.
-
-Provide file fragments to File Manager.
+- Process UART message (CT CMD).
+- Provide PIN to auth engine.
+- Initiate PT/CT commands to Crypto Module.
+- Provide file fragments to File Manager.
 
 ### Auth Engine
-Pass or reject PIN.
+- Pass or reject PIN.
+- Utilize hold-off timer from Timer driver.
 
-Utilize hold-off timer from Timer driver.
 ### State Machine
-Determine state.
-
-Provide state to File manager.
+- Determine state.
+- Provide state to File manager.
 ### Crypto Module
-Utilize TRNG, Key storage, and AES module to encrypt and decrypt provided file.
+- Utilize TRNG, Key storage, and AES module to encrypt and decrypt provided file.
+
 ### File Manager
-Check current state and store file in internal flash mem.
+- Check current state and store file in internal flash mem.
+- Model: 8 slots (128B each) = 1 Flash sector (1KB)
+- Atomic: The MCU handles 128B as the native atomic operation
+- Slot structure: 40B (metadata) + 88B payload
+
+![FileManager](../images/file_manager_layout.jpg)
