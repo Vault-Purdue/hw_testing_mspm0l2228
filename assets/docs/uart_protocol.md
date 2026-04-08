@@ -17,7 +17,7 @@ One UART "frame" is composed of the following structure:
 
 | SoF | Message ID | Payload Length | Payload | Checksum |
 | --- | --- | --- | --- | --- |
-| 2 Bytes | 2 Bytes | 2 Bytes | 0 - 1024 Bytes | 2 Bytes |
+| 2 Bytes | 1 Byte | 1 Byte | 0 - 88 Bytes | 2 Bytes |
 
 ## Start of Frame Indicator (SoF)
 
