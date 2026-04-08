@@ -36,11 +36,11 @@ This field identifies the type of message the frame is, and thus how the payload
 | Session Close | 0x0F | No | None | CLOSE | Host (Both?) |
 | Status Query | 0x10 | No | Requested status/filesystem information | STATUS | Host |
 | Status Response | 0x11 | No | Requested status/filesystem information | STATUS | HSM |
-| File Transfer Request | 0x10 | No | Whether request is for an upload or download, name/path of requested file | READ/WRITE | Host |
-| File Start | 0x11 | Yes | First block of file | READ/WRITE | Both |
-| File Block | 0x12 | Yes | Any block of file | READ/WRITE | Both |
-| File End | 0x13 | Yes | Final block of file | READ/WRITE | Both |
-| File Transfer Complete | 0x14 | No | Checksum for whole file verification | READ/WRITE | Both |
+| File Transfer Request | 0x20 | No | Whether request is for an upload or download, name/path of requested file | READ/WRITE | Host |
+| File Start | 0x21 | Yes | First block of file | READ/WRITE | Both |
+| File Block | 0x22 | Yes | Any block of file | READ/WRITE | Both |
+| File End | 0x23 | Yes | Final block of file | READ/WRITE | Both |
+| File Transfer Complete | 0x24 | No | Checksum for whole file verification | READ/WRITE | Both |
 | File Request ACK | 0xF0 | No | Whether file transfer can be performed or not (ie fail if requested file does not exist) | READ/WRITE | Both |
 | File Block ACK | 0xF1 | No | None | READ/WRITE | Both |
 | File Transfer Complete ACK | 0xF2 | No | Whether checksum verification succeeded or not | READ/WRITE | Both |
