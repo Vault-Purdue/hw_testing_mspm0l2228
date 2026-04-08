@@ -17,11 +17,11 @@ One UART "frame" is composed of the following structure:
 
 | SoF | Message ID | Payload Length | Payload | Checksum |
 | --- | --- | --- | --- | --- |
-| 2 Bytes | 1 Byte | 1 Byte | 0 - 88 Bytes | 2 Bytes |
+| 1 Byte | 1 Byte | 1 Byte | 0 - 88 Bytes | 2 Bytes |
 
 ## Start of Frame Indicator (SoF)
 
-The Start of Frame indicator is **0xAA**. All UART frames will begin with these two bytes to mark the beginning of the frame.
+The Start of Frame indicator is **0xAA**. All UART frames will begin with this byte to mark the beginning of the frame.
 Because all frames also have a Payload Length field, an End of Frame indicator will not be necessary.
 
 ## Message ID
@@ -47,7 +47,7 @@ This field identifies the type of message the frame is, and thus how the payload
 
 ## Payload Length
 
-Length of the Payload, in bytes. Possible values are 0-1024.
+Length of the Payload, in bytes. Possible values are 0-88.
 
 ## Payload
 
