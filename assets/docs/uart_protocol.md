@@ -17,7 +17,7 @@ One UART "frame" is composed of the following structure:
 
 | SoF | Message ID | Payload Length | Payload | Checksum |
 | --- | --- | --- | --- | --- |
-| 1 Byte | 1 Byte | 1 Byte | 0 - 88 Bytes | 2 Bytes |
+| 1 Byte | 1 Byte | 1 Byte | 0 - 255 Bytes | 2 Bytes |
 
 ## Start of Frame Indicator (SoF)
 
@@ -37,9 +37,8 @@ This field identifies the type of message the frame is, and thus how the payload
 | Status Query | 0x10 | No | Requested status/filesystem information | STATUS | Host |
 | Status Response | 0x11 | No | Requested status/filesystem information | STATUS | HSM |
 | File Transfer Request | 0x20 | No | Whether request is for an upload or download, name/path of requested file | READ/WRITE | Host |
-| File Start | 0x21 | Yes | First block of file | READ/WRITE | Both |
-| File Block | 0x22 | Yes | Any block of file | READ/WRITE | Both |
-| File End | 0x23 | Yes | Final block of file | READ/WRITE | Both |
+| File Chunk | 0x22 | Yes | Any chunk of file, see payload section | READ/WRITE | Both |
+| File End | 0x23 | Yes | Final chunk of file, see payload section | READ/WRITE | Both |
 | File Transfer Complete | 0x24 | No | Checksum for whole file verification | READ/WRITE | Both |
 | File Request ACK | 0xF0 | No | Whether file transfer can be performed or not (ie fail if requested file does not exist) | READ/WRITE | Both |
 | File Block ACK | 0xF1 | No | None | READ/WRITE | Both |
@@ -47,11 +46,19 @@ This field identifies the type of message the frame is, and thus how the payload
 
 ## Payload Length
 
-Length of the Payload, in bytes. Possible values are 0-88.
+Length of the Payload, in bytes. Possible values are 0-255.
 
 ## Payload
 
 The data being sent itself. The only part of the frame which may be encrypted.
+
+Payload for File chunk is (92 bytes): 
+
+| Chunk Index | Data Size | Data |
+| --- | --- | --- |
+| 2B  | 2B  | 88B |
+
+Data must be exactly 88 bytes, padded as needed. Data Size tells how many bytes are real data.
 
 ## Checksum
 
