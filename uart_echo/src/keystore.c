@@ -15,10 +15,6 @@ static const DL_KEYSTORECTL_Config rootKeyTransferConfig = {
     .keySize = KEYSTORE_KEY_SIZE,
     .cryptoSel = DL_KEYSTORECTL_CRYPTO_SEL_AES,
 };
-static DL_KEYSTORECTL_KeyWrConfig rootKeyWriteConfig = {
-    .keySlot = KEYSTORE_ROOT_KEY_SLOT,
-    .keySize = KEYSTORE_KEY_SIZE,
-};
 
 int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf) {
     
@@ -36,7 +32,11 @@ int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf) {
     if (DL_KEYSTORECTL_getStatus(KEYSTORECTL) != DL_KEYSTORECTL_STATUS_VALID) return -2;
 
     // Write the key to KEYSTORE
-    rootKeyWriteConfig.key = buf;
+    DL_KEYSTORECTL_KeyWrConfig rootKeyWriteConfig = {
+        .keySlot = KEYSTORE_ROOT_KEY_SLOT,
+        .keySize = KEYSTORE_KEY_SIZE,
+        .key = buf
+    };
     DL_KEYSTORECTL_writeKey(KEYSTORECTL, (DL_KEYSTORECTL_KeyWrConfig*) &rootKeyWriteConfig);
 
     // Validate status
