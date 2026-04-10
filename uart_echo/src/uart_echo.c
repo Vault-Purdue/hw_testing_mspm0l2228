@@ -52,6 +52,11 @@ int main(void)
     SYS_initPower();
     GPIO_init();
     TIMER_0_init();
+
+    // // TRNG startup tests failed; we cannot use the TRNG module for entropy
+    // if (TRNG_init() != 0) {
+    //     __BKPT();
+    // }
     
     NVIC_EnableIRQ(TIMER_0_INST_INT_IRQN);
 
@@ -88,10 +93,7 @@ int main(void)
 */
 
     // // TRNG + KEYSTORE test
-    // // For some reason debug just removes codes from meory when
-    // // size is 2, so added an extra slot to keep in debug memory
-    // uint32_t buf[TRNG_256_BIT_BUF_SIZE] = {0};
-    // int codes[3] = {0};
+    // uint32_t buf[TRNG_256_BIT_BUF_SIZE];
 
     // // Write 256-bit "number" to buf
     // HSM_TRNG_generate256BitNumber(buf);
@@ -99,14 +101,20 @@ int main(void)
     // // Write to KEYSTORE
     // int result = HSM_KEYSTORE_initRootKeyStorage(buf);
 
-    // codes[0] = result;
+    // // Failed to write to storage
+    // if (result != 0) {
+    //     __BKPT();
+    // }
 
     // // Send root key to AES
     // result = HSM_KEYSTORE_transferRootKeyToAES();
 
-    // codes[1] = result;
+    // // Failed to transfer to AES
+    // if (result != 0) {
+    //     __BKPT();
+    // }
 
-    // // PUT A BREAKPOINT AND VIEW IN DEBUG VARIABLES
+    // PUT A BREAKPOINT AND VIEW IN DEBUG VARIABLES
 
     DL_GPIO_setPins(GPIO_RED_LED_PORT, GPIO_RED_LED_PIN);
     DL_TimerG_startCounter(TIMER_0_INST);
