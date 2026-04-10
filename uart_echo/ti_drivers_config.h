@@ -77,6 +77,14 @@ void SYS_initPower(void);
 void UART1_IRQHandler(void);
 void GPIO_init(void);
 void TIMER_0_init(void);
+
+/**
+ * @brief Initializes the TRNG module as described in the MSPM0 L-Series Technical Reference Manual
+ * 
+ * @retval 0: TRNG successfully initialized
+ * @retval -1: Digital start up tests failed, it is NOT SAFE to use the TRNG
+ * @retval -2: Analog start up tests failed, it is NOT SAFE to use the TRNG
+ */
 int TRNG_init(void);
 
 #endif /* ti_drivers_config_h */
