@@ -20,7 +20,7 @@ static DL_KEYSTORECTL_KeyWrConfig rootKeyWriteConfig = {
     .keySize = KEYSTORE_KEY_SIZE,
 };
 
-int KEYSTORE_initRootKeyStorage(uint32_t *buf) {
+int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf) {
     
     // If for some reason we attempt to call this function again
     if (initialized) return 0;
@@ -47,7 +47,7 @@ int KEYSTORE_initRootKeyStorage(uint32_t *buf) {
     return 0;
 }
 
-int KEYSTORE_transferRootKeyToAES(void) {
+int HSM_KEYSTORE_transferRootKeyToAES(void) {
     
     // Validate status
     if (DL_KEYSTORECTL_getStatus(KEYSTORE) != DL_KEYSTORECTL_STATUS_VALID) return -1;

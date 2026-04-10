@@ -7,8 +7,8 @@
  * Constants/stubs for the KEYSTORE driver.
  */
 
-#ifndef _KEYSTORE_H_
-#define _KEYSTORE_H_
+#ifndef _HSM_KEYSTORE_H_
+#define _HSM_KEYSTORE_H_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -33,7 +33,7 @@
  * @retval -2: non-valid status after setting config
  * @retval -3: non-valid status after writing to KEYSTORE
  */
-int KEYSTORE_initRootKeyStorage(uint32_t *buf);
+int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf);
 
 /**
  * @brief Transfers the root key in storage to the AESADV.
@@ -43,6 +43,6 @@ int KEYSTORE_initRootKeyStorage(uint32_t *buf);
  * @retval -2: root key not in KEYSTORE
  * @retval -3: non-valid status after transferring to AESADV
  */
-int KEYSTORE_transferRootKeyToAES(void);
+int HSM_KEYSTORE_transferRootKeyToAES(void);
 
 #endif

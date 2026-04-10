@@ -10,12 +10,9 @@
 #include "trng.h"
 
 /**
- * @brief Powers on and initializes the TRNG module
- * 
- * This function powers on the TRNG module and
- * initializes the TRNG clock and decimation rates.
+ * @brief Powers on and initializes the TRNG module.
  */
-static void trngInit(void) {
+static void HSM_TRNG_init(void) {
 
     // Reset TRNG
     DL_TRNG_reset(TRNG);
@@ -43,12 +40,13 @@ static void trngInit(void) {
 /**
  * @brief Writes random 32-bit numbers to buffer
  * 
- * This function captures responses from the TRNG module and stores them in a specified buffer
+ * @param buf Buffer to store the TRNG output
+ * @param len Number of TRNG captures to write to buf
  */
-static void trngGenerateNumber(uint32_t *buf, size_t len) {
+static void HSM_TRNG_generateNumber(uint32_t *buf, size_t len) {
     
     // Initialize the TRNG module
-    trngInit();
+    HSM_TRNG_init();
 
     // Let the TRNG module warm up
     // Toss out first couple of readings
@@ -71,10 +69,10 @@ static void trngGenerateNumber(uint32_t *buf, size_t len) {
     DL_TRNG_disablePower(TRNG);
 }
 
-void trngGenerate32BitNumber(uint32_t *buf) { trngGenerateNumber(buf, TRNG_32_BIT_BUF_SIZE); }
+void HSM_TRNG_generate32BitNumber(uint32_t *buf) { HSM_TRNG_generateNumber(buf, TRNG_32_BIT_BUF_SIZE); }
 
-void trngGenerate64BitNumber(uint32_t *buf) { trngGenerateNumber(buf, TRNG_64_BIT_BUF_SIZE); }
+void HSM_TRNG_generate64BitNumber(uint32_t *buf) { HSM_TRNG_generateNumber(buf, TRNG_64_BIT_BUF_SIZE); }
 
-void trngGenerate128BitNumber(uint32_t *buf) { trngGenerateNumber(buf, TRNG_128_BIT_BUF_SIZE); }
+void HSM_TRNG_generate128BitNumber(uint32_t *buf) { HSM_TRNG_generateNumber(buf, TRNG_128_BIT_BUF_SIZE); }
 
-void trngGenerate256BitNumber(uint32_t *buf) { trngGenerateNumber(buf, TRNG_256_BIT_BUF_SIZE); }
+void HSM_TRNG_generate256BitNumber(uint32_t *buf) { HSM_TRNG_generateNumber(buf, TRNG_256_BIT_BUF_SIZE); }
