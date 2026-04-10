@@ -32,16 +32,16 @@ int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf) {
     DL_KEYSTORECTL_setNumberOf256Keys(KEYSTORECTL, KEYSTORE_NUM_256_KEYS);
 
     // Validate status
-    while (DL_KEYSTORECTL_getStatus(KEYSTORE) == DL_KEYSTORECTL_STATUS_NO_CONFIG);
-    if (DL_KEYSTORECTL_getStatus(KEYSTORE) != DL_KEYSTORECTL_STATUS_VALID) return -2;
+    while (DL_KEYSTORECTL_getStatus(KEYSTORECTL) == DL_KEYSTORECTL_STATUS_NO_CONFIG);
+    if (DL_KEYSTORECTL_getStatus(KEYSTORECTL) != DL_KEYSTORECTL_STATUS_VALID) return -2;
 
     // Write the key to KEYSTORE
     rootKeyWriteConfig.key = buf;
-    DL_KEYSTORECTL_writeKey(KEYSTORE, (DL_KEYSTORECTL_KeyWrConfig*) &rootKeyWriteConfig);
+    DL_KEYSTORECTL_writeKey(KEYSTORECTL, (DL_KEYSTORECTL_KeyWrConfig*) &rootKeyWriteConfig);
 
     // Validate status
-    while (DL_KEYSTORECTL_getStatus(KEYSTORE) == DL_KEYSTORECTL_STATUS_BUSY_RX);
-    if (DL_KEYSTORECTL_getStatus(KEYSTORE) != DL_KEYSTORECTL_STATUS_VALID) return -3;
+    while (DL_KEYSTORECTL_getStatus(KEYSTORECTL) == DL_KEYSTORECTL_STATUS_BUSY_RX);
+    if (DL_KEYSTORECTL_getStatus(KEYSTORECTL) != DL_KEYSTORECTL_STATUS_VALID) return -3;
     
     initialized = true;
     return 0;
@@ -50,7 +50,7 @@ int HSM_KEYSTORE_initRootKeyStorage(uint32_t *buf) {
 int HSM_KEYSTORE_transferRootKeyToAES(void) {
     
     // Validate status
-    if (DL_KEYSTORECTL_getStatus(KEYSTORE) != DL_KEYSTORECTL_STATUS_VALID) return -1;
+    if (DL_KEYSTORECTL_getStatus(KEYSTORECTL) != DL_KEYSTORECTL_STATUS_VALID) return -1;
 
     // We need to verify that our root key slot is occupied
     if (DL_KEYSTORECTL_getValidKeySlots(KEYSTORECTL) == 0) return -2;
@@ -59,8 +59,8 @@ int HSM_KEYSTORE_transferRootKeyToAES(void) {
     DL_KEYSTORECTL_transferKey(KEYSTORECTL, (DL_KEYSTORECTL_Config*) &rootKeyTransferConfig);
 
     // Validate status
-    while (DL_KEYSTORECTL_getStatus(KEYSTORE) == DL_KEYSTORECTL_STATUS_BUSY_TX);
-    if (DL_KEYSTORECTL_getStatus(KEYSTORE) != DL_KEYSTORECTL_STATUS_VALID) return -3;
+    while (DL_KEYSTORECTL_getStatus(KEYSTORECTL) == DL_KEYSTORECTL_STATUS_BUSY_TX);
+    if (DL_KEYSTORECTL_getStatus(KEYSTORECTL) != DL_KEYSTORECTL_STATUS_VALID) return -3;
 
     return 0;
 }

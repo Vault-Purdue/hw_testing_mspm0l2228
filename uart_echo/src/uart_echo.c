@@ -37,6 +37,7 @@
 // #define TEST_FLASH_ADDR 0x0003F000 //Page 252
 // #include <stdint.h>
 // #include "trng.h"
+// #include "keystore.h"
 
 uint8_t gBuffer[CONFIG_UART_BUFFER_LENGTH] = {0};
 
@@ -86,11 +87,24 @@ int main(void)
     }
 */
 
-    // // TRNG test
+    // // TRNG + KEYSTORE test
+    // // For some reason debug just removes codes from meory when
+    // // size is 2, so added an extra slot to keep in debug memory
     // uint32_t buf[TRNG_256_BIT_BUF_SIZE] = {0};
+    // int codes[3] = {0};
 
     // // Write 256-bit "number" to buf
-    // trngGenerate256BitNumber(buf);
+    // HSM_TRNG_generate256BitNumber(buf);
+
+    // // Write to KEYSTORE
+    // int result = HSM_KEYSTORE_initRootKeyStorage(buf);
+
+    // codes[0] = result;
+
+    // // Send root key to AES
+    // result = HSM_KEYSTORE_transferRootKeyToAES();
+
+    // codes[1] = result;
 
     // // PUT A BREAKPOINT AND VIEW IN DEBUG VARIABLES
 
