@@ -37,6 +37,7 @@
 // #define TEST_FLASH_ADDR 0x0003F000 //Page 252
 // #include <stdint.h>
 // #include "trng.h"
+// #include "crypto_module.h"
 
 uint8_t gBuffer[CONFIG_UART_BUFFER_LENGTH] = {0};
 
@@ -96,7 +97,7 @@ int main(void)
 
     DL_GPIO_setPins(GPIO_RED_LED_PORT, GPIO_RED_LED_PIN);
     DL_TimerG_startCounter(TIMER_0_INST);
-    
+
     while (1) {
         //DL_GPIO_togglePins(GPIO_RED_LED_PORT, GPIO_RED_LED_PIN);
         //delay_cycles(DELAY);
