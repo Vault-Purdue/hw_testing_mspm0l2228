@@ -7,8 +7,8 @@
  * Wrapper functions for using the AESADV encryption hardware
  */
 
-#ifndef _HSM_AESADV_H_;
-#define _HSM_AESADV_H_;
+#ifndef _AESADV_H_
+#define _AESADV_H_
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -19,5 +19,7 @@
 /*********************** CONSTANTS ************************/
 #define AES_TRANSACTION_LENGTH (4)
 
-void HSM_AESADV_encrypt(uint32_t *key, uint32_t *input[AES_TRANSACTION_LENGTH], uint32_t *output[AES_TRANSACTION_LENGTH]);
-void HSM_AESADV_decrypt(uint32_t, *key, uint32_t *input[AES_TRANSACTION_LENGTH], uint32_t *output[AES_TRANSACTION_LENGTH]);
+void HSM_AESADV_encrypt(uint32_t *key, uint32_t *input, uint32_t *output);
+void HSM_AESADV_decrypt(uint32_t *key, uint32_t *input, uint32_t *output);
+
+#endif

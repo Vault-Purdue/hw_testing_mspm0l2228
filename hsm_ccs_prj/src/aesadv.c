@@ -24,7 +24,7 @@ static DL_AESADV_Config gAESADV_config = {
       .aadLength         = 0,
 };
 
-void HSM_AESADV_encrypt(uint32_t *key, uint32_t *input[AES_TRANSACTION_LENGTH], uint32_t *output[AES_TRANSACTION_LENGTH]){
+void HSM_AESADV_encrypt(uint32_t *key, uint32_t *input, uint32_t *output){
     gAESADV_config.direction = DL_AESADV_DIR_ENCRYPT;
     DL_AESADV_setKeySize(AESADV, DL_AESADV_KEY_SIZE_128_BIT);
     DL_AESADV_setKeyAligned(AESADV, &key[0], DL_AESADV_KEY_SIZE_128_BIT);
@@ -33,15 +33,15 @@ void HSM_AESADV_encrypt(uint32_t *key, uint32_t *input[AES_TRANSACTION_LENGTH], 
     while (!DL_AESADV_isInputReady(AESADV)){
         ;
     }
-    DL_AESADV_loadInputDataAligned(AESADV, input[AES_TRANSACTION_LENGTH]);
+    DL_AESADV_loadInputDataAligned(AESADV, input);
     while (!DL_AESADV_isOutputReady(AESADV)){
-        :
+        ;
     }
     DL_AESADV_readOutputDataAligned(AESADV, output);
     return;
 }
 
-void HSM_AESADV_decrypt(uint32_t, *key, uint32_t *input[AES_TRANSACTION_LENGTH], uint32_t *output[AES_TRANSACTION_LENGTH]){
+void HSM_AESADV_decrypt(uint32_t *key, uint32_t *input, uint32_t *output){
     gAESADV_config.direction = DL_AESADV_DIR_DECRYPT;
     DL_AESADV_setKeySize(AESADV, DL_AESADV_KEY_SIZE_128_BIT);
     DL_AESADV_setKeyAligned(AESADV, &key[0], DL_AESADV_KEY_SIZE_128_BIT);
@@ -49,7 +49,7 @@ void HSM_AESADV_decrypt(uint32_t, *key, uint32_t *input[AES_TRANSACTION_LENGTH],
     while (!DL_AESADV_isInputReady(AESADV)){
         ;
     }
-    DL_AESADV_loadInputDataAligned(AESADV, input[AES_TRANSACTION_LENGTH]);
+    DL_AESADV_loadInputDataAligned(AESADV, input);
     while (!DL_AESADV_isOutputReady(AESADV)){
         ;
     }
