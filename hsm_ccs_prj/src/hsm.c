@@ -38,8 +38,18 @@
 // #include <stdint.h>
 // #include "trng.h"
 // #include "keystore.h"
+#include "aesadv.h"
 
 uint8_t gBuffer[CONFIG_UART_BUFFER_LENGTH] = {0};
+
+// AES testing variables
+#define AES_TRANSACTION_LENGTH (4)
+static uint32_t gKey[4] = {0x16157e2b , 0xa6d2ae28 , 0x8815f7ab, 0x3c4fcf09};
+static const uint32_t gAesExpectedCiphertext[AES_TRANSACTION_LENGTH] = {0xB47BD73A, 0x60367A0D, 0xF3CA9EA8, 0x97EF6624};
+static uint32_t gAesInput[AES_TRANSACTION_LENGTH] = {0xe2bec16b, 0x969f402e, 0x117e3de9, 0x2a179373};
+static uint32_t gAesDecryptOutput[AES_TRANSACTION_LENGTH];
+static uint32_t gAesEncryptOutput[AES_TRANSACTION_LENGTH];
+volatile bool gCorrectResult = true;
 
 int main(void)
 {

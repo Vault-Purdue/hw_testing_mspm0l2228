@@ -86,6 +86,20 @@ const UART_Config UART_config[CONFIG_UART_COUNT] = {
     },
 };
 
+static const DL_AESADV_Config gAESADV_config = {
+    .mode = DL_AESADV_MODE_ECB,
+    .direction = DL_AESADV_DIR_ENCRYPT,
+    .ctr_ctrWidth = DL_AESADV_CTR_WIDTH_32_BIT,
+    .cfb_fbWidth = DL_AESADV_FB_WIDTH_128,
+    .ccm_ctrWidth = DL_AESADV_CCM_CTR_WIDTH_2_BYTES,
+    .ccm_tagWidth = DL_AESADV_CCM_TAG_WIDTH_1_BYTE,
+    .iv = NULL,
+    .nonce = NULL,
+    .lowerCryptoLength = 0,
+    .upperCryptoLength = 0,
+    .aadLength = 0,
+};
+
 void UART0_IRQHandler(void)
 {
     UARTMSP_interruptHandler((UART_Handle) &UART_config[0]);
@@ -96,11 +110,13 @@ void UART0_IRQHandler(void)
  */
 void SYS_initPower(void)
 {
+    SYS_DL_SYSCTL_init();
     DL_GPIO_reset(GPIOA);
     DL_GPIO_reset(GPIOB);
     DL_GPIO_reset(GPIOC);
     DL_TimerG_reset(TIMER_0_INST);
     DL_TRNG_reset(TRNG);
+    DL_AESADV_reset(AESADV);
 
     DL_GPIO_enablePower(GPIOA);
     DL_GPIO_enablePower(GPIOB);
@@ -108,7 +124,7 @@ void SYS_initPower(void)
     DL_TimerG_enablePower(TIMER_0_INST);
     DL_TRNG_enablePower(TRNG);
     DL_TRNG_clearInterruptStatus(TRNG, DL_TRNG_INTERRUPT_CMD_DONE_EVENT);
-    
+    DL_AESADV_enablePower(AESADV);
     delay_cycles(POWER_STARTUP_DELAY);
 }
 
@@ -254,3 +270,29 @@ int TRNG_init(void) {
     
     return 0;
 }
+
+void SYS_DL_SYSCTL_init(void)
+{
+
+	//Low Power Mode is configured to be SLEEP0
+    DL_SYSCTL_setBORThreshold(DL_SYSCTL_BOR_THRESHOLD_LEVEL_0);
+
+    
+	DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ_BASE);
+	/* Set default configuration */
+	DL_SYSCTL_disableHFXT();
+
+}
+
+void SYS_AESADV_init(void)
+{
+    /*
+     * The key must be initialized and loaded in the application code with
+     * DL_AESADV_setKey. This must be done prior to SYSCFG_DL_AESADV_init,
+     * which places the AES engine in the selected AES mode with all of the
+     * necessary control context.
+     */
+
+    DL_AESADV_initECB(AESADV, (DL_AESADV_Config *) &gAESADV_config);
+}
+

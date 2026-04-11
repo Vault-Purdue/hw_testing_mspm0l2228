@@ -42,6 +42,7 @@
 #include <ti/drivers/UART.h>
 #include <ti/drivers/uart/UARTMSPM0.h>
 #include <ti/driverlib/dl_trng.h>
+#include <ti/driverlib/dl_aesadv.h>
 
 /* clang-format off */
 #define POWER_STARTUP_DELAY                                                 (16)
@@ -66,6 +67,10 @@
 #define TRNG_CLOCK_DIVIDE                               (DL_TRNG_CLOCK_DIVIDE_2)
 #define TRNG_DECIMATION_RATE                         (DL_TRNG_DECIMATION_RATE_8)
 
+/* Defines for AESADV */
+#define AES_BLOCK_SIZE                                                     (16)
+#define AES_KEY_SIZE                                                       (16)
+
 extern const uint_least8_t CONFIG_UART_0;
 extern const uint_least8_t UART_count;
 
@@ -78,6 +83,7 @@ void UART1_IRQHandler(void);
 void GPIO_init(void);
 void TIMER_0_init(void);
 
+
 /**
  * @brief Initializes the TRNG module as described in the MSPM0 L-Series Technical Reference Manual
  * 
@@ -86,5 +92,8 @@ void TIMER_0_init(void);
  * @retval -2: Analog start up tests failed, it is NOT SAFE to use the TRNG
  */
 int TRNG_init(void);
+void SYS_DL_SYSCTL_init(void);
+void SYS_AESADV_init(void);
+
 
 #endif /* ti_drivers_config_h */
