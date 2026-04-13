@@ -1,5 +1,6 @@
-# HSM UART Communication Protocol
+# HSM UART Communication Protocol Version 1.0 (See HSM repo for up to date file!)
 
+Warning: This file is not being updated or supported. See the HSM repo for the up to date protocol documentation.
 UART will be used for communication between the host and the HSM. The host CLI program will exchange messages with the HSM UART CMD Router, according to the protocol following.
 None of this is finalized; this is all subject to change.
 
