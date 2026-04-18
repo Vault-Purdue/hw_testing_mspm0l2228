@@ -60,6 +60,10 @@
 #define TIMER_0_INST_LOAD_VALUE                                         (19999U)
 #define TIMER_0_INST_PUB_0_CH                                                (1)
 
+/* Defines for LCD */
+#define LCD_IRQHandler                                            LCD_IRQHandler
+#define LCD_INT_IRQN                                                LCD_INT_IRQn
+
 extern const uint_least8_t CONFIG_UART_0;
 extern const uint_least8_t UART_count;
 
@@ -71,5 +75,6 @@ void SYS_initPower(void);
 void UART1_IRQHandler(void);
 void GPIO_init(void);
 void TIMER_0_init(void);
+void LCD_init(void);
 
 #endif /* ti_drivers_config_h */

@@ -15,6 +15,7 @@
 #include "led_status.h"
 #include "aes_adv_gcm_test.h"
 #include "aes_adv_gcm.h"
+#include "lcd.h"
 
 /** @brief Initializes peripherals for system boot.
 */
@@ -31,11 +32,15 @@ int main(void) {
     uart_frame_t rx_frame;
     int result = 0;
     //uart_msg_id_t cmd;
-
+    
     // Initialize device peripherals
     init();
     AESADV_init();
-
+    LCD_init();
+    
+    char text[6] = "HSM123";
+    LCD_print(text);
+    
     if (AESADV_GCM_selfTest()) {
         STATUS_LED_ON(); 
     } else {
