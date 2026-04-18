@@ -1,4 +1,4 @@
-# HSM UART Communication Protocol
+# HSM UART Communication Protocol - Version: 1.2
 
 UART will be used for communication between the host and the HSM. The host CLI program will exchange messages with the HSM UART CMD Router, according to the protocol following.
 None of this is finalized; this is all subject to change.
@@ -17,7 +17,7 @@ One UART "frame" is composed of the following structure:
 
 | SoF | Message ID | Payload Length | Payload | Checksum |
 | --- | --- | --- | --- | --- |
-| 1 Byte | 1 Byte | 1 Byte | 0 - 88 Bytes | 2 Bytes |
+| 1 Byte | 1 Byte | 1 Byte | 0 - 1024 Bytes | 2 Bytes |
 
 ## Start of Frame Indicator (SoF)
 
@@ -30,7 +30,7 @@ This field identifies the type of message the frame is, and thus how the payload
 
 | Message Type | Byte Value | Is Payload Encrypted? | Payload Content | Relevant Host Command | Sender |
 | --- | --- | --- | --- | --- | --- |
-| Session Open | 0x00 | No | None? | AUTH | Host | 
+| Session Open | 0x00 | No | 0x41 ('A' of Auth) | AUTH | Host | 
 | Key Exchange | 0x01 | No | Key exchange information? | AUTH | Both |
 | PIN Exchange | 0x02 | Yes? | PIN, result of PIN attempt | AUTH | Both |
 | Session Close | 0x0F | No | None | CLOSE | Host (Both?) |
@@ -47,7 +47,7 @@ This field identifies the type of message the frame is, and thus how the payload
 
 ## Payload Length
 
-Length of the Payload, in bytes. Possible values are 0-88.
+Length of the Payload, in bytes. Possible values are 0-1024.
 
 ## Payload
 
