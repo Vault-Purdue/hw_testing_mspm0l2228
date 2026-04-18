@@ -38,7 +38,7 @@ int main(void) {
     AESADV_init();
     LCD_init();
     
-    char text[6] = "HSM123";
+    char text[6] = "__HSM_";
     LCD_print(text);
     
     if (AESADV_GCM_selfTest()) {

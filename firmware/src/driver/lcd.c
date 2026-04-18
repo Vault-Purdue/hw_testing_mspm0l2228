@@ -12,12 +12,8 @@
 
 
 /* Onboard LED positions */
-LCD_pin gLCDPinPosition1;
-LCD_pin gLCDPinPosition2;
-LCD_pin gLCDPinPosition3;
-LCD_pin gLCDPinPosition4;
-LCD_pin gLCDPinPosition5;
-LCD_pin gLCDPinPosition6;
+LCD_pin gLCDPinPosition[6];
+
 
 /* LCD memory map for numeric digits */
 const char digit[10][4] = {
@@ -163,40 +159,42 @@ void LCD_showChar(LCD_Regs *lcd, char ch, LCD_pin lcdPinPosition)
 void LCD_print(char inputstr[6])
 {
     
-    gLCDPinPosition1.pin1 = DL_LCD_SEGMENT_LINE_58;
-    gLCDPinPosition1.pin2 = DL_LCD_SEGMENT_LINE_57;
-    gLCDPinPosition1.pin3 = DL_LCD_SEGMENT_LINE_56;
-    gLCDPinPosition1.pin4 = DL_LCD_SEGMENT_LINE_55;
+    gLCDPinPosition[0].pin1 = DL_LCD_SEGMENT_LINE_58;
+    gLCDPinPosition[0].pin2 = DL_LCD_SEGMENT_LINE_57;
+    gLCDPinPosition[0].pin3 = DL_LCD_SEGMENT_LINE_56;
+    gLCDPinPosition[0].pin4 = DL_LCD_SEGMENT_LINE_55;
 
-    gLCDPinPosition2.pin1 = DL_LCD_SEGMENT_LINE_36;
-    gLCDPinPosition2.pin2 = DL_LCD_SEGMENT_LINE_37;
-    gLCDPinPosition2.pin3 = DL_LCD_SEGMENT_LINE_38;
-    gLCDPinPosition2.pin4 = DL_LCD_SEGMENT_LINE_18;
+    gLCDPinPosition[1].pin1 = DL_LCD_SEGMENT_LINE_36;
+    gLCDPinPosition[1].pin2 = DL_LCD_SEGMENT_LINE_37;
+    gLCDPinPosition[1].pin3 = DL_LCD_SEGMENT_LINE_38;
+    gLCDPinPosition[1].pin4 = DL_LCD_SEGMENT_LINE_18;
 
-    gLCDPinPosition3.pin1 = DL_LCD_SEGMENT_LINE_19;
-    gLCDPinPosition3.pin2 = DL_LCD_SEGMENT_LINE_20;
-    gLCDPinPosition3.pin3 = DL_LCD_SEGMENT_LINE_23;
-    gLCDPinPosition3.pin4 = DL_LCD_SEGMENT_LINE_39;
+    gLCDPinPosition[2].pin1 = DL_LCD_SEGMENT_LINE_19;
+    gLCDPinPosition[2].pin2 = DL_LCD_SEGMENT_LINE_20;
+    gLCDPinPosition[2].pin3 = DL_LCD_SEGMENT_LINE_23;
+    gLCDPinPosition[2].pin4 = DL_LCD_SEGMENT_LINE_39;
 
-    gLCDPinPosition4.pin1 = DL_LCD_SEGMENT_LINE_40;
-    gLCDPinPosition4.pin2 = DL_LCD_SEGMENT_LINE_41;
-    gLCDPinPosition4.pin3 = DL_LCD_SEGMENT_LINE_54;
-    gLCDPinPosition4.pin4 = DL_LCD_SEGMENT_LINE_53;
+    gLCDPinPosition[3].pin1 = DL_LCD_SEGMENT_LINE_40;
+    gLCDPinPosition[3].pin2 = DL_LCD_SEGMENT_LINE_41;
+    gLCDPinPosition[3].pin3 = DL_LCD_SEGMENT_LINE_54;
+    gLCDPinPosition[3].pin4 = DL_LCD_SEGMENT_LINE_53;
 
-    gLCDPinPosition5.pin1 = DL_LCD_SEGMENT_LINE_52;
-    gLCDPinPosition5.pin2 = DL_LCD_SEGMENT_LINE_51;
-    gLCDPinPosition5.pin3 = DL_LCD_SEGMENT_LINE_50;
-    gLCDPinPosition5.pin4 = DL_LCD_SEGMENT_LINE_49;
+    gLCDPinPosition[4].pin1 = DL_LCD_SEGMENT_LINE_52;
+    gLCDPinPosition[4].pin2 = DL_LCD_SEGMENT_LINE_51;
+    gLCDPinPosition[4].pin3 = DL_LCD_SEGMENT_LINE_50;
+    gLCDPinPosition[4].pin4 = DL_LCD_SEGMENT_LINE_49;
 
-    gLCDPinPosition6.pin1 = DL_LCD_SEGMENT_LINE_48;
-    gLCDPinPosition6.pin2 = DL_LCD_SEGMENT_LINE_47;
-    gLCDPinPosition6.pin3 = DL_LCD_SEGMENT_LINE_46;
-    gLCDPinPosition6.pin4 = DL_LCD_SEGMENT_LINE_45;
+    gLCDPinPosition[5].pin1 = DL_LCD_SEGMENT_LINE_48;
+    gLCDPinPosition[5].pin2 = DL_LCD_SEGMENT_LINE_47;
+    gLCDPinPosition[5].pin3 = DL_LCD_SEGMENT_LINE_46;
+    gLCDPinPosition[5].pin4 = DL_LCD_SEGMENT_LINE_45;
 
-    LCD_showChar(LCD, inputstr[0], gLCDPinPosition1);
-    LCD_showChar(LCD, inputstr[1], gLCDPinPosition2);
-    LCD_showChar(LCD, inputstr[2], gLCDPinPosition3);
-    LCD_showChar(LCD, inputstr[3], gLCDPinPosition4);
-    LCD_showChar(LCD, inputstr[4], gLCDPinPosition5);
-    LCD_showChar(LCD, inputstr[5], gLCDPinPosition6);
+    for(uint8_t i = 0; i < 6; i++)
+    {
+        if(inputstr[i] != '_')
+        {
+            LCD_showChar(LCD, inputstr[i], gLCDPinPosition[i]);
+        }
+    }
+    
 }
