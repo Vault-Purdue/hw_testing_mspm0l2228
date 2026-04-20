@@ -1,13 +1,28 @@
+# HOW TO USE THIS PROGRAM:
+# When run, you will be prompted to enter a payload string. This string will be encoded and sent
+# to the MSPM0 board over the specified UART port. (For me, that's COM5, but you may need to change
+# that to the port your board is plugged into.)
+# The program will then listen for responses from the board, printing out any received messages.
+# You can change the MESSAGE_ID variable at the top to simulate sending different message types. 
+# (see hsm/assets/docs/uart_protocol.md for more details on message types and payload formats)
+# The payload can be up to 1024 bytes long.
+# Running the program once will allow you to send one message and receive responses to that message 
+# until you exit with Ctrl+C. This could be easily changed if you want to send multiple messages in 
+# one session, but it was helpful when I was testing to see every response to a single message at a 
+# time.
+# Currently, checksum validation is commented out because I haven't implemented the checksum generation
+# on the HSM side yet.
+
 #pip install pyserial
 
 import serial
 import time
 
-# Change this to your port
-PORT = 'COM5'          # e.g. '/dev/ttyUSB0'
-BAUDRATE = 115200      # Must match your MSPM0 config
 
+PORT = 'COM5' # Change this to your port
 MESSAGE_ID = 0x00 # Change this to simulate sending different message types.
+
+BAUDRATE = 115200
 
 def crc16_ccitt(data: bytes, poly=0x1021, init=0xFFFF):
     crc = init
@@ -41,9 +56,6 @@ def main():
     ser = serial.Serial(PORT, BAUDRATE, timeout=1)
     time.sleep(0.1) # Let the port settle
     ser.reset_input_buffer() # Clear any phantom bytes
-
-    # Give the board time to reset (common for USB CDC devices)
-    #time.sleep(2)
 
     try:
         payload = input("Enter payload: ")
