@@ -197,4 +197,4 @@ void LCD_print(char inputstr[6])
         }
     }
     
-}
+} // comment
