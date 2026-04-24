@@ -5,7 +5,7 @@
 # The program will then listen for responses from the board, printing out any received messages.
 # You can change the MESSAGE_ID variable at the top to simulate sending different message types. 
 # (see hsm/assets/docs/uart_protocol.md for more details on message types and payload formats)
-# The payload can be up to 1024 bytes long.
+# The payload can be up to 128 bytes long.
 # Running the program once will allow you to send one message and receive responses to that message 
 # until you exit with Ctrl+C. This could be easily changed if you want to send multiple messages in 
 # one session, but it was helpful when I was testing to see every response to a single message at a 
@@ -20,7 +20,7 @@ import time
 
 
 PORT = 'COM5' # Change this to your port
-MESSAGE_ID = 0x00 # Change this to simulate sending different message types.
+MESSAGE_ID = 0x01 # Change this to simulate sending different message types.
 
 BAUDRATE = 115200
 
@@ -42,11 +42,7 @@ def construct_message(payload):
     frame = bytearray()
     frame.append(0xAA) # Start byte
     frame.append(MESSAGE_ID) # Message ID
-    if len(payload) > 255:
-        frame.append(len(payload))
-    else:
-        frame.append(0)
-        frame.append(len(payload))
+    frame.append(len(payload))
     encoded_payload = payload.encode('utf-8')  # Convert string to bytes
     frame.extend(encoded_payload)
     frame.extend(crc16_ccitt(encoded_payload).to_bytes(2, 'big'))  # CRC16
@@ -59,8 +55,8 @@ def main():
 
     try:
         payload = input("Enter payload: ")
-        if len(payload) > 1024:
-            print("Payload too long! Max 1024 bytes.")
+        if len(payload) > 128:
+            print("Payload too long! Max 128 bytes.")
             return
 
         frame = construct_message(payload)
@@ -80,8 +76,8 @@ def main():
                     print("Got SOF: ", byte.hex())
                     break
             
-            header = ser.read(3)
-            if len(header) < 3:
+            header = ser.read(2)
+            if len(header) < 2:
                 print("Header timeout")
                 continue
 
@@ -89,8 +85,11 @@ def main():
 
             # Read message ID and length
             msg_id = header[0]
-            length_bytes = header[1:3]
-            length = int.from_bytes(length_bytes, 'big')
+            length = header[1]
+            #length = int.from_bytes(length_bytes, 'big
+            #length = int(length)
+
+            print("Got length: ", length)
 
             # Read payload
             payload = ser.read(length)
